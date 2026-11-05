@@ -1,0 +1,23 @@
+{
+  "name": "@firefly13/arcade-core",
+  "version": "0.1.0",
+  "description": "Pure game logic for 2048: move, spawn, hasMoves, canMove.",
+  "type": "module",
+  "exports": "./src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "2048",
+    "game",
+    "puzzle"
+  ],
+  "author": "Hanfei Yang",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
