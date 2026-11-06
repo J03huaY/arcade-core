@@ -43,3 +43,39 @@ export function move(board, direction) {
 	throw new Error(`Unknown direction: ${direction}`);
 }
 
+export function scoreRowLeft(row) {
+	const length = row.length;
+	const tiles = row.filter((tile) => tile !== 0);
+
+	let i = 0;
+	let points = 0;
+	while (i < tiles.length - 1) {
+		if (tiles[i] === tiles[i+1]) {
+			tiles[i] *= 2;
+			tiles.splice(i + 1, 1);
+			points += tiles[i];
+		}
+		i++;
+	}
+	return points;
+}
+
+export function scoreMove(board, direction) {
+	let points = 0;
+	let newBoard;
+	if (direction === 'left') {
+		newBoard = board;
+	} else if (direction === 'right') {
+		newBoard = reverse(board);
+	} else if (direction === 'up') {
+		newBoard = transpose(board);
+	} else if (direction === 'down') {
+		newBoard = reverse(transpose(board));
+	} else throw new Error(`Unknown direction: ${direction}`);
+
+	const scores = newBoard.map((row) => scoreRowLeft(row));
+		for (let i = 0; i < scores.length; i++) {
+			points += scores[i];
+		}
+		return points;
+}

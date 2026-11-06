@@ -18,7 +18,7 @@ Requires Node 18 or later. The package is an ES module.
 ## Quick start
 
 ```js
-import { move, spawn, canMove, hasMoves } from '@firefly13/arcade-core';
+import { move, scoreMove, spawn, canMove, hasMoves } from '@firefly13/arcade-core';
 
 let board = [
 	[2, 0, 2, 4],
@@ -26,8 +26,10 @@ let board = [
 	[0, 4, 0, 4],
 	[0, 0, 0, 0]
 ];
+let score = 0;
 
 if (canMove(board, 'left')) {
+	score += scoreMove(board, 'left'); // 4 + 8 = 12
 	board = move(board, 'left');
 	board = spawn(board);
 }
@@ -76,6 +78,33 @@ move([[2, 2, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], 'right')[0];
 ```
 
 Throws an `Error` if `direction` is not one of the four directions.
+
+### `scoreMove(board, direction)`
+
+Returns the points that moving in `direction` would earn, without changing the board. Every
+merge earns the value of the new tile, so two `2`s merging into a `4` earn 4 points. A move with no
+merges earns `0`.
+
+Call it with the board **before** you move it:
+
+```js
+const board = [
+	[2, 2, 4, 4],
+	[0, 0, 0, 0],
+	[0, 0, 0, 0],
+	[0, 0, 0, 0]
+];
+
+scoreMove(board, 'left'); // 12   (2 + 2 → 4, and 4 + 4 → 8)
+scoreMove(board, 'up'); // 0    (nothing merges vertically)
+```
+
+It follows the same merge rules as `move`, so `[2, 2, 2, 2]` earns 8 (two 4s) and `[4, 4, 8, 0]`
+earns 8 (the new 8 does not merge again).
+
+Throws an `Error` if `direction` is not one of the four directions.
+
+Added in 0.2.0.
 
 ### `spawn(board, rng = Math.random)`
 
