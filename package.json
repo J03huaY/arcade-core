@@ -1,6 +1,6 @@
 {
   "name": "@firefly13/arcade-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pure game logic for 2048: move, spawn, hasMoves, canMove.",
   "type": "module",
   "exports": "./src/index.js",
